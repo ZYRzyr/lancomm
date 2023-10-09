@@ -17,7 +17,6 @@ dependencyResolutionManagement {
     }
 }
 
-include ':lancomm-kt'
 include ':lancomm'
 include ':app'
 rootProject.name = "lancomm-demo"

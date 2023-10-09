@@ -1,7 +1,11 @@
 package com.fighter.lancomm_demo
 
+import com.fighter.lancomm.broadcaster
+import com.fighter.lancomm.communicator
 import com.fighter.lancomm.ptop.Command
-import com.fighter.lancomm_kt.*
+import com.fighter.lancomm.receiver
+import com.fighter.lancomm.searcher
+import com.fighter.lancomm.sendCommand
 
 /**
  * @author fighter_lee
@@ -26,7 +30,7 @@ object KtExecuteDemo {
         communicator
 
         //发送点对点消息
-        sendCommand{
+        sendCommand {
             destIp = "192.168.1.13"
             data = "我点你了，哈哈~".toByteArray()
             callback = object : Command.Callback {

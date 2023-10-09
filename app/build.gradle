@@ -34,5 +34,5 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     implementation "androidx.recyclerview:recyclerview:1.1.0"
-    implementation project(':lancomm-kt')
+    implementation project(':lancomm')
 }
