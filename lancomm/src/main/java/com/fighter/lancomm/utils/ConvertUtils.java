@@ -1,4 +1,4 @@
-package com.fighter.common;
+package com.fighter.lancomm.utils;
 
 /**
  * @author fighter_lee

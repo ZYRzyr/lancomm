@@ -1,9 +1,9 @@
 package com.fighter.lancomm.search;
 
-import com.fighter.common.UIThreadUtil;
 import com.fighter.lancomm.data.Const;
 import com.fighter.lancomm.data.Device;
 import com.fighter.lancomm.inter.SearchListener;
+import com.fighter.lancomm.utils.UIThreadUtil;
 import com.fighter.lancomm.utils.Utils;
 
 import java.io.IOException;

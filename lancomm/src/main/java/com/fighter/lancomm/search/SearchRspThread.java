@@ -4,8 +4,8 @@ import android.app.Service;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 
-import com.fighter.common.ContextVal;
 import com.fighter.lancomm.data.Const;
+import com.fighter.lancomm.utils.ContextVal;
 import com.fighter.lancomm.utils.Utils;
 
 import java.io.IOException;

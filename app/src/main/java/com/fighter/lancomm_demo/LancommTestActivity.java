@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fighter.common.UIThreadUtil;
 import com.fighter.lancomm.LanCommManager;
 import com.fighter.lancomm.data.CommData;
 import com.fighter.lancomm.data.Device;

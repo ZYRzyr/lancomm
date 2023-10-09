@@ -1,4 +1,4 @@
-package com.fighter.common;
+package com.fighter.lancomm.utils;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;

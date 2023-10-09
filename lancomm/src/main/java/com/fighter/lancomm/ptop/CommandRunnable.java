@@ -1,6 +1,6 @@
 package com.fighter.lancomm.ptop;
 
-import com.fighter.common.ConvertUtils;
+import com.fighter.lancomm.utils.ConvertUtils;
 import com.fighter.lancomm.data.Const;
 import com.fighter.lancomm.data.Error;
 import com.fighter.lancomm.utils.Utils;

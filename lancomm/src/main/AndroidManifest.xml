@@ -3,4 +3,12 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <application>
+
+        <provider
+            android:name="com.fighter.lancomm.utils.CommonContextProvider"
+            android:authorities="${applicationId}.commoncontextprovider"
+            android:exported="false" />
+    </application>
 </manifest>

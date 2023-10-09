@@ -1,6 +1,6 @@
 package com.fighter.lancomm;
 
-import com.fighter.common.Dispatcher;
+import com.fighter.lancomm.utils.Dispatcher;
 import com.fighter.lancomm.broadcast.Broadcaster;
 import com.fighter.lancomm.broadcast.BroadcasterImpl;
 import com.fighter.lancomm.ptop.Communicator;

@@ -4,12 +4,12 @@ import android.app.Service;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 
-import com.fighter.common.ContextVal;
-import com.fighter.common.ConvertUtils;
+import com.fighter.lancomm.utils.ConvertUtils;
 import com.fighter.lancomm.data.CommData;
 import com.fighter.lancomm.data.Const;
 import com.fighter.lancomm.data.Device;
 import com.fighter.lancomm.inter.DataListener;
+import com.fighter.lancomm.utils.ContextVal;
 import com.fighter.lancomm.utils.Utils;
 
 import java.io.DataInputStream;

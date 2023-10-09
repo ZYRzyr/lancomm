@@ -1,6 +1,6 @@
 package com.fighter.lancomm.broadcast;
 
-import com.fighter.common.ConvertUtils;
+import com.fighter.lancomm.utils.ConvertUtils;
 import com.fighter.lancomm.data.Const;
 import com.fighter.lancomm.data.LanCommConfig;
 import com.fighter.lancomm.utils.Utils;
