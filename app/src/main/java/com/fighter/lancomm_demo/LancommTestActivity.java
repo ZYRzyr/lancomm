@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.fighter.common.Trace;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.fighter.common.UIThreadUtil;
 import com.fighter.lancomm.LanCommManager;
 import com.fighter.lancomm.data.CommData;
@@ -16,10 +19,6 @@ import com.fighter.lancomm.inter.SearchListener;
 import com.fighter.lancomm.ptop.Command;
 
 import java.util.HashMap;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author fighter_lee
@@ -54,7 +53,6 @@ public class LancommTestActivity extends Activity {
         LanCommManager.getReceiver().addDataListener(new DataListener() {
             @Override
             public void onBroadcastArrive(final CommData commData) {
-                Trace.d(TAG, "onMessage() : " + new String(commData.getData()));
                 UIThreadUtil.postUI(new Runnable() {
                     @Override
                     public void run() {
@@ -66,7 +64,6 @@ public class LancommTestActivity extends Activity {
             @Override
             public void onCommandArrive(final CommData commData) {
                 //接收到点对点消息
-                Trace.d(TAG, "onCommandArrive() " + new String(commData.getData()));
                 UIThreadUtil.postUI(new Runnable() {
                     @Override
                     public void run() {
@@ -115,17 +112,17 @@ public class LancommTestActivity extends Activity {
                 .setCallback(new Command.Callback() {
                     @Override
                     public void onSuccess() {
-                        Trace.d(TAG, "send success");
+
                     }
 
                     @Override
                     public void onError(int code) {
-                        Trace.d(TAG, "onError() " + code);
+
                     }
 
                     @Override
                     public void onReceived() {
-                        Trace.d(TAG, "对方已收到");
+
                     }
                 });
         LanCommManager.getCommunicator().sendCommand(command);
@@ -136,18 +133,18 @@ public class LancommTestActivity extends Activity {
         LanCommManager.getSearcher().startSearch(new SearchListener() {
             @Override
             public void onSearchStart() {
-                Trace.d(TAG, "onSearchStart() ");
+
             }
 
             @Override
             public void onSearchedNewOne(Device device) {
-                Trace.d(TAG, "onSearchedNewOne() " + device.toString());
+
             }
 
             @Override
             public void onSearchFinish(final HashMap<String, Device> dd) {
                 devices = dd;
-                Trace.d(TAG, "onSearchFinish() size:" + devices.size());
+
                 UIThreadUtil.postUI(new Runnable() {
                     @Override
                     public void run() {

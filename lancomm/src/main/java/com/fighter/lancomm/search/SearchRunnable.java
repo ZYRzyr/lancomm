@@ -1,7 +1,5 @@
 package com.fighter.lancomm.search;
 
-import android.util.Log;
-
 import com.fighter.common.UIThreadUtil;
 import com.fighter.lancomm.data.Const;
 import com.fighter.lancomm.data.Device;
@@ -14,7 +12,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -23,8 +20,7 @@ import java.util.HashMap;
  */
 public class SearchRunnable implements Runnable {
 
-    private static final String TAG = "SearchRunnable";
-    private SearchListener listener;
+    private final SearchListener listener;
 
     public SearchRunnable(SearchListener listener) {
         this.listener = listener;
@@ -32,7 +28,6 @@ public class SearchRunnable implements Runnable {
 
     @Override
     public void run() {
-        Log.v(TAG, Utils.getDeviceIp() + Const.SEND_SYMBOL + "局域网搜索设备");
         UIThreadUtil.postUI(new Runnable() {
             @Override
             public void run() {
@@ -94,24 +89,15 @@ public class SearchRunnable implements Runnable {
         }
         byte[] ip = new byte[4];
         System.arraycopy(data, 2, ip, 0, 4);
-        //        Trace.d(TAG, "search request respond ip: " + Arrays.toString(ip));
-        //        try {
-        //            Trace.d(TAG, "search request respond ip:" + Utils.ipbyteToString(ip));
-        //        } catch (UnknownHostException e) {
-        //            e.printStackTrace();
-        //        }
         String ip1 = recePack.getAddress().getHostAddress();
-        Log.v(TAG, "发现新设备: ip:" + ip1);
         return new Device(ip1);
     }
 
     private byte[] packSearchData(byte[] hostAddress) {
-        //        Trace.d(TAG, "pack search data, ip ：" + Utils.ipbyteToString(hostAddress));
         byte[] data = new byte[2 + hostAddress.length];
         data[0] = Const.PACKET_PREFIX;
         data[1] = Const.PACKET_TYPE_SEARCH_DEVICE;
         System.arraycopy(hostAddress, 0, data, 2, hostAddress.length);
-        Log.v(TAG, Utils.getDeviceIp() + Const.SEND_SYMBOL + "局域网搜索设备,package data: \r\n" + Arrays.toString(data));
         return data;
     }
 }

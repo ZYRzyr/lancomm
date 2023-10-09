@@ -1,7 +1,5 @@
 package com.fighter.lancomm.broadcast;
 
-import android.util.Log;
-
 import com.fighter.common.ConvertUtils;
 import com.fighter.lancomm.data.Const;
 import com.fighter.lancomm.data.LanCommConfig;
@@ -11,9 +9,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Arrays;
 
 /**
  * @author fighter_lee
@@ -21,15 +16,11 @@ import java.util.Arrays;
  */
 public class BroadcastRunnable implements Runnable {
 
-    private static final String TAG = "BroadcastRunnable";
     private byte[] bytes = new byte[0];
     private int type = Const.PACKET_TYPE_BROADCAST;
 
     /**
      * 设置广播的消息内容
-     *
-     * @param bytes
-     * @return
      */
     public BroadcastRunnable setData(byte[] bytes) {
         this.bytes = bytes;
@@ -38,9 +29,6 @@ public class BroadcastRunnable implements Runnable {
 
     /**
      * 设置广播包类型
-     *
-     * @param type
-     * @return
      */
     public BroadcastRunnable setType(int type) {
         this.type = type;
@@ -50,14 +38,8 @@ public class BroadcastRunnable implements Runnable {
     /**
      * 协议规范
      * #(1) + packageType(1) +  ip(4) + dataLength(4) + [data]
-     *
-     * @param bytes
-     * @param hostAddress
-     * @return
      */
     private byte[] packBroadcastData(byte[] hostAddress, byte[] bytes) {
-        //        Trace.d(TAG, "packBroadcastData() ：" + Arrays.toString(hostAddress));
-        //        Trace.d(TAG, "packBroadcastData() : " + Arrays.toString(bytes));
         byte[] lengthBytes = ConvertUtils.intToByteArray(bytes.length);
         byte[] data = new byte[2 + hostAddress.length + bytes.length + lengthBytes.length];
         data[0] = Const.PACKET_PREFIX;
@@ -68,14 +50,12 @@ public class BroadcastRunnable implements Runnable {
         if (bytes != null && bytes.length != 0) {
             System.arraycopy(bytes, 0, data, 2 + hostAddress.length + lengthBytes.length, bytes.length);
         }
-        Log.v(TAG, Utils.getDeviceIp() + Const.SEND_SYMBOL + "局域网广播 package data:\r\n" + Arrays.toString(data));
         return data;
     }
 
     @Override
     public void run() {
         try {
-            Log.v(TAG, Utils.getDeviceIp() + Const.SEND_SYMBOL + "局域网广播");
             DatagramSocket socket = new DatagramSocket();
             //设置接收等待时长
             socket.setSoTimeout(LanCommConfig.RECEIVE_TIME_OUT);
@@ -87,13 +67,8 @@ public class BroadcastRunnable implements Runnable {
             sendPacket.setData(broadcastData);
             //发送udp数据包
             socket.send(sendPacket);
-            Log.v(TAG, Utils.getDeviceIp() + Const.SEND_SYMBOL + "局域网广播 成功");
-        } catch (SocketException e) {
-            e.printStackTrace();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            //no-op
         }
     }
 }

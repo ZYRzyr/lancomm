@@ -1,7 +1,5 @@
 package com.fighter.lancomm.ptop;
 
-import android.util.Log;
-
 import com.fighter.common.ConvertUtils;
 import com.fighter.lancomm.data.Const;
 import com.fighter.lancomm.data.Error;
@@ -14,7 +12,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 
 /**
  * @author fighter_lee
@@ -22,7 +19,6 @@ import java.util.Arrays;
  */
 public class CommandRunnable implements Runnable {
 
-    private static final String TAG = "CommandRunnable";
     Command command;
 
     public CommandRunnable(Command command) {
@@ -33,7 +29,6 @@ public class CommandRunnable implements Runnable {
     public void run() {
         Socket socket = new Socket();
         try {
-            Log.v(TAG, Utils.getDeviceIp() + Const.SEND_SYMBOL + command.getDestIp() + " 发送点对点消息");
             socket.connect(new InetSocketAddress(command.getDestIp(), Const.COMMAND_PORT));
             OutputStream os = socket.getOutputStream();
             InputStream is = socket.getInputStream();
@@ -42,18 +37,14 @@ public class CommandRunnable implements Runnable {
             os.write(packCommandData(command.getData()));
 
             if (command.getCallback() != null) {
-                Log.v(TAG, Utils.getDeviceIp() + Const.SEND_SYMBOL + command.getDestIp() + " 发送点对点消息 成功");
                 command.getCallback().onSuccess();
             }
 
             int len = is.read(buffer);
             if (len != -1) {
                 parseCommandRspData(buffer);
-            } else {
-
             }
         } catch (IOException e) {
-            e.printStackTrace();
             if (command.getCallback() != null) {
                 command.getCallback().onError(Error.ERROR_CONNECT_FAIL);
             }
@@ -74,7 +65,6 @@ public class CommandRunnable implements Runnable {
         System.arraycopy(data, 2, ipData, 0, 4);
         //收到响应
         if (command.getCallback() != null) {
-            Log.v(TAG, Utils.getDeviceIp() + Const.SEND_SYMBOL + command.getDestIp() + " 发送点对点消息 且对方已收到");
             command.getCallback().onReceived();
         }
     }
@@ -88,9 +78,6 @@ public class CommandRunnable implements Runnable {
         System.arraycopy(localIPAddress, 0, data, 2, localIPAddress.length);
         System.arraycopy(lengthBytes, 0, data, 2 + localIPAddress.length, lengthBytes.length);
         System.arraycopy(content, 0, data, 2 + localIPAddress.length + lengthBytes.length, content.length);
-        Log.v(TAG, Utils.getDeviceIp() + Const.SEND_SYMBOL + command.getDestIp() + " package data: \r\n" + Arrays.toString(data));
         return data;
     }
-
-
 }

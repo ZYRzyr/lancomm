@@ -7,7 +7,6 @@ package com.fighter.lancomm.data;
 public class LanCommConfig {
 
 
-
     /**
      * 接收超时时间
      */

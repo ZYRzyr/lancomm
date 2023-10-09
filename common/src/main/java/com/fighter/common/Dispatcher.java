@@ -1,16 +1,12 @@
 package com.fighter.common;
 
 
-import com.fighter.common.interfaces.NamedCallable;
-import com.fighter.common.interfaces.NamedRunnable;
-
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -24,8 +20,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date 2018/3/8
  */
 public class Dispatcher {
-    private static final String TAG = "Dispatcher";
-
     /*********************** copy form AsyncTask start ***********************/
     private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
     private static final int CORE_POOL_SIZE = Math.max(2, Math.min(CPU_COUNT - 1, 4));
@@ -132,38 +126,6 @@ public class Dispatcher {
 
     public synchronized void setIdleCallback(Runnable idleCallback) {
         this.idleCallback = idleCallback;
-    }
-
-    /**
-     * 入队并行执行runnable
-     */
-    public void enqueue(NamedRunnable runnable) {
-        if (runningCallsCount() < maxRequests) {
-            runningAsyncCalls.add(runnable);
-            executorService().submit(runnable);
-        } else {
-            readyAsyncCalls.add(runnable);
-        }
-    }
-
-    /**
-     * 入队串行执行callable
-     * 注意：需要排队，可能不会立即执行
-     */
-    public <T> CommonResponse<T> blockExecuted(NamedCallable<T> callable) {
-        CommonResponse<T> response = new CommonResponse<>();
-        runningSyncCalls.add(callable);
-        FutureTask<T> futureTask = new FutureTask<>(callable);
-        executorService().submit(futureTask);
-        try {
-            T result = futureTask.get();
-            response.setResult(result);
-        } catch (Exception e) {
-            Trace.e(TAG, e);
-        } finally {
-            runningSyncCalls.remove(callable);
-        }
-        return response;
     }
 
     private void promoteCalls() {

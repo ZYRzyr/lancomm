@@ -3,7 +3,6 @@ package com.fighter.lancomm.search;
 import android.app.Service;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.util.Log;
 
 import com.fighter.common.ContextVal;
 import com.fighter.lancomm.data.Const;
@@ -14,7 +13,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 
 /**
  * @author fighter_lee
@@ -44,8 +42,6 @@ public class SearchRspThread extends Thread {
             searchRspThread = null;
         }
     }
-
-    private static final String TAG = "SearchRspThread";
 
     DatagramSocket socket;
     volatile boolean openFlag;
@@ -87,17 +83,14 @@ public class SearchRspThread extends Thread {
 
     private byte[] packSearchRespData() throws SocketException, UnknownHostException {
         byte[] localIPAddress = Utils.getLocalIPAddress();
-        //        Trace.d(TAG, "pack search rsp data, current ip:" + Utils.ipbyteToString(localIPAddress));
         byte[] data = new byte[2 + localIPAddress.length];
         data[0] = Const.PACKET_PREFIX;
         data[1] = Const.PACKET_TYPE_SEARCH_DEVICE_RSP;
         System.arraycopy(localIPAddress, 0, data, 2, 4);
-        Log.d(TAG, Utils.getDeviceIp() + Const.SEND_SYMBOL + tarIp + " 搜索应答,data:\r\n" + Arrays.toString(data));
         return data;
     }
 
     private boolean verifySearchData(DatagramPacket pack) throws IOException {
-        //        Trace.d(TAG, "parseSearchData() start");
         if (pack.getLength() < 2) {
             return false;
         }
@@ -113,7 +106,6 @@ public class SearchRspThread extends Thread {
         byte[] ipData = new byte[4];
         System.arraycopy(data, 2, ipData, 0, 4);
         tarIp = Utils.ipbyteToString(ipData);
-        Log.v(TAG, Utils.getDeviceIp() + Const.RECEIVE_SYMBOL + tarIp + " 搜索请求");
         return true;
     }
 

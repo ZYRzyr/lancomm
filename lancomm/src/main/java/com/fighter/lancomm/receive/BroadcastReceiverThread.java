@@ -3,7 +3,6 @@ package com.fighter.lancomm.receive;
 import android.app.Service;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.util.Log;
 
 import com.fighter.common.ContextVal;
 import com.fighter.common.ConvertUtils;
@@ -18,7 +17,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,8 +24,6 @@ import java.util.List;
  * @date 2020/1/13
  */
 public class BroadcastReceiverThread extends Thread {
-
-    private static final String TAG = "ReceiverThread";
     private static BroadcastReceiverThread receiverThread;
     private WakeLock wakelock;
 
@@ -108,14 +104,12 @@ public class BroadcastReceiverThread extends Thread {
         CommData commData = new CommData();
         byte[] ipData = getIp(data);
         String ipString = Utils.ipbyteToString(ipData);
-        Log.v(TAG, Utils.getDeviceIp() + Const.RECEIVE_SYMBOL + ipString + " 局域网广播");
         //广播消息
         byte[] lengthData = new byte[4];
         System.arraycopy(data, 6, lengthData, 0, 4);
         int dataLength = ConvertUtils.byteArrayToInt(lengthData);
         byte[] msgData = new byte[dataLength];
         System.arraycopy(data, 10, msgData, 0, dataLength);
-        Log.v(TAG, Utils.getDeviceIp() + Const.RECEIVE_SYMBOL + ipString + "局域网广播，package data:\r\n" + Arrays.toString(msgData));
         Device device = new Device(Utils.ipbyteToString(ipData));
         commData.setDevice(device);
         commData.setData(msgData);
@@ -132,10 +126,8 @@ public class BroadcastReceiverThread extends Thread {
             Device device = new Device(Utils.ipbyteToString(ip));
             for (DeviceListener deviceListener : deviceListeners) {
                 if (isAdd) {
-                    Log.v(TAG, Utils.getDeviceIp() + Const.RECEIVE_SYMBOL + "设备上线" + device.getIp());
                     deviceListener.onDeviceAdd(device);
                 } else {
-                    Log.v(TAG, Utils.getDeviceIp() + Const.RECEIVE_SYMBOL + "设备下线" + device.getIp());
                     deviceListener.onDeviceRemove(device);
                 }
             }
@@ -160,5 +152,4 @@ public class BroadcastReceiverThread extends Thread {
             wakelock.release();
         }
     }
-
 }

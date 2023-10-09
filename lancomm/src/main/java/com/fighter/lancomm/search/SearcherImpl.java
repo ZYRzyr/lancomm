@@ -1,6 +1,5 @@
 package com.fighter.lancomm.search;
 
-import com.fighter.common.Trace;
 import com.fighter.lancomm.LanCommManager;
 import com.fighter.lancomm.broadcast.BroadcastRunnable;
 import com.fighter.lancomm.data.Const;
@@ -33,7 +32,6 @@ public class SearcherImpl implements Searcher {
 
     @Override
     public void setCanBeSearched(boolean canBeSearched) {
-        Trace.d(TAG, "setCanBeSearched() " + canBeSearched);
         if (this.canBeSearched != canBeSearched) {
             if (canBeSearched) {
                 //设备上线->广播通知其他设备

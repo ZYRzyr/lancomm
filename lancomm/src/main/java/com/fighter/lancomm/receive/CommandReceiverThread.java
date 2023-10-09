@@ -3,11 +3,9 @@ package com.fighter.lancomm.receive;
 import android.app.Service;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.util.Log;
 
 import com.fighter.common.ContextVal;
 import com.fighter.common.ConvertUtils;
-import com.fighter.common.Trace;
 import com.fighter.lancomm.data.CommData;
 import com.fighter.lancomm.data.Const;
 import com.fighter.lancomm.data.Device;
@@ -21,7 +19,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,8 +26,6 @@ import java.util.List;
  * @date 2020/1/16
  */
 public class CommandReceiverThread extends Thread {
-
-    private static final String TAG = "CommandReceiverThread";
     private static CommandReceiverThread receiverThread;
     private String tarIp = "";
 
@@ -39,7 +34,6 @@ public class CommandReceiverThread extends Thread {
      */
     public static void open() {
         if (receiverThread == null) {
-            Trace.d(TAG, "command receiver thread open");
             receiverThread = new CommandReceiverThread();
             receiverThread.start();
         }
@@ -50,7 +44,6 @@ public class CommandReceiverThread extends Thread {
      */
     public static void close() {
         if (receiverThread != null) {
-            Trace.d(TAG, "command receiver thread close");
             receiverThread.destory();
             receiverThread = null;
         }
@@ -98,7 +91,6 @@ public class CommandReceiverThread extends Thread {
         data[0] = Const.PACKET_PREFIX;
         data[1] = Const.PACKET_TYPE_COMMAND_RSP;
         System.arraycopy(localIPAddress, 0, data, 2, localIPAddress.length);
-        Log.v(TAG, Utils.getDeviceIp() + Const.SEND_SYMBOL + tarIp + " 点对点消息 通知已收到，data:\r\n" + Arrays.toString(data));
         return data;
     }
 
@@ -114,7 +106,6 @@ public class CommandReceiverThread extends Thread {
         byte[] ipData = new byte[4];
         System.arraycopy(data, 2, ipData, 0, 4);
         tarIp = Utils.ipbyteToString(ipData);
-        Log.v(TAG, Utils.getDeviceIp() + Const.RECEIVE_SYMBOL + tarIp + " 点对点消息,data:\r\n" + Arrays.toString(data));
         return true;
     }
 
